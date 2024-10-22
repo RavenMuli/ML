@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "pipe/wsgi.py",
+      "use": "@vercel/python",
+      "config": { 
+        "maxLambdaSize": "250mb" ,
+        "installCommand": "pip install -r requirements.txt"
+      }
+    },
+    {
+      "src": "pipe/static/**/*",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "pipe/wsgi.py"
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "/pipe/static/$1"
+    }
+  ]
+}
